@@ -11,12 +11,12 @@ import main from "../styles/authenticate";
 import buttonStyles from "../styles/buttonStyle";
 import inputStyle from "../styles/inputStyle";
 import Checkbox from "expo-checkbox";
+
 import {
   userSignUp,
   saveDetails,
   createAuthUserWithEmailAndPassword,
   createUserDocFromAuth,
-  signInWithGoogle,
 } from "../web/firebase";
 import { render } from "react-dom";
 
@@ -34,34 +34,11 @@ const SignupScreen = (props) => {
   const [password, onChangeTextPassword] = React.useState("");
   const [isChecked, setChecked] = React.useState(false);
 
-  // const [contact, setContact] = useState({
-  //   firstName: "",
-  //   lastName: "",
-  //   homeCountry: "",
-  //   homePostcode: "",
-  //   email: "",
-  //   password: "",
-  // });
-
   useEffect(() => {
     navigation.setOptions({
       headerLeft: (props: StackHeaderLeftButtonProps) => <MenuIcon />,
     });
   });
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
-    try {
-      const { user } = await createAuthUserWithEmailAndPassword(
-        email,
-        password
-      );
-      await createUserDocFromAuth(user, { displayName });
-    } catch (error) {
-      console.log("error in creating user", error.message);
-    }
-  };
 
   return (
     <View style={main.Centered}>

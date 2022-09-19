@@ -10,8 +10,11 @@ import MenuIcon from "../components/MenuIcon";
 import main from "../styles/authenticate";
 import buttonStyles from "../styles/buttonStyle";
 import logoStyles from "../styles/logoStyle";
-
-import { signInWithGoogle, createUserDocFromAuth } from "../web/firebase";
+import {
+  GoogleSignin,
+  GoogleSigninButton,
+  statusCodes,
+} from "react-native-google-signin";
 
 {
   /* Initial screen for authentication proccess.
@@ -26,11 +29,6 @@ export default function AuthenticateScreen() {
       headerLeft: (props: StackHeaderLeftButtonProps) => <MenuIcon />,
     });
   });
-
-  const logGoogleUser = async () => {
-    const { user } = await signInWithGoogle();
-    const userDocRef = await createUserDocFromAuth(user);
-  };
 
   return (
     <View style={main.Centered}>
@@ -51,7 +49,6 @@ export default function AuthenticateScreen() {
       <Pressable
         style={buttonStyles.Button}
         onPress={() => {
-          logGoogleUser;
           navigation.navigate("Login");
         }}
       >

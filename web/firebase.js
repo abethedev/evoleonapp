@@ -1,27 +1,31 @@
 import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
+  GoogleAuthProvider,
   Auth,
   getAuth,
   signOut,
-  GoogleAuthProvider,
 } from "firebase/auth";
 import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
 import { initializeApp } from "firebase/app";
 
+//Firebase config for Evoleon Application
+const firebaseConfig = {
+  apiKey: "AIzaSyDKfzJfKg08xUAHb7WBhs-I2L8lQV5nUIg",
+  authDomain: "evoleonapp.firebaseapp.com",
+  projectId: "evoleonapp",
+  storageBucket: "evoleonapp.appspot.com",
+  messagingSenderId: "425564389277",
+  appId: "1:425564389277:web:c86772f8abb19ffca47974",
+  measurementId: "G-GL6LC3D645",
+};
+
+//Initialize Firebase
+const app = initializeApp(firebaseConfig);
+export const auth = getAuth();
+
 //Boolean - true if user is signed in
 var userIsAuthenticated;
-
-export async function signInWithGoogle() {
-  //Get the users ID token
-  const { tokenID } = await GoogleSignin.signIn();
-
-  //Create a google credential token
-  const googleCred = auth.GoogleAuthProvider.credential(tokenID);
-
-  //Sign in the user with credential
-  return auth().signInWithCredential(googleCred);
-}
 
 export const getuserIsAuthenticated = () => {
   return userIsAuthenticated;
@@ -44,28 +48,6 @@ export const signInSignOutButtonPressed = () => {
     userSignOut();
   }
 };
-
-//Firebase config for Evoleon Application
-const firebaseConfig = {
-  apiKey: "AIzaSyDKfzJfKg08xUAHb7WBhs-I2L8lQV5nUIg",
-  authDomain: "evoleonapp.firebaseapp.com",
-  projectId: "evoleonapp",
-  storageBucket: "evoleonapp.appspot.com",
-  messagingSenderId: "425564389277",
-  appId: "1:425564389277:web:c86772f8abb19ffca47974",
-  measurementId: "G-GL6LC3D645",
-};
-
-//Initialize Firebase
-const app = initializeApp(firebaseConfig);
-export const auth = getAuth();
-export const db = getFirestore();
-
-//Google Auth
-const provider = new GoogleAuthProvider();
-provider.setCustomParameters({
-  prompt: "select_account",
-});
 
 //Sign in for an existing user
 export const userSignIn = (email, password) => {
@@ -98,16 +80,6 @@ export const userSignUp = async (email, password) => {
     });
 };
 
-export const saveDetails = async (firstName, email, password) => {
-  try {
-    const { user1 } = await createAuthUserWithEmailAndPassword(email, password);
-    await createUserDocFromAuth(user1, { firstName });
-    console.log("User Stored");
-  } catch (error) {
-    console.log("Error in creating this user", error.message);
-  }
-};
-
 //Sign out of user account
 export const userSignOut = () => {
   const authInfo = auth;
@@ -122,37 +94,49 @@ export const userSignOut = () => {
     });
 };
 
+// =======================DATABASE CODE IGNORE FOR NOW====================== //
+
+// export const saveDetails = async (firstName, email, password) => {
+//   try {
+//     const { user1 } = await createAuthUserWithEmailAndPassword(email, password);
+//     await createUserDocFromAuth(user1, { firstName });
+//     console.log("User Stored");
+//   } catch (error) {
+//     console.log("Error in creating this user", error.message);
+//   }
+// };
+
 //Method for creating user and storing in DB
-export const createUserDocFromAuth = async (
-  userAuth,
-  additionalInformation = {}
-) => {
-  if (!userAuth) return;
+// export const createUserDocFromAuth = async (
+//   userAuth,
+//   additionalInformation = {}
+// ) => {
+//   if (!userAuth) return;
 
-  const userDocRef = doc(db, "users", userAuth.uid);
+//   const userDocRef = doc(db, "users", userAuth.uid);
 
-  const userSnapshot = await getDoc(userDocRef);
+//   const userSnapshot = await getDoc(userDocRef);
 
-  if (!userSnapshot.exists()) {
-    const { firstName, email } = userAuth;
-    const createdAt = new Date();
+//   if (!userSnapshot.exists()) {
+//     const { firstName, email } = userAuth;
+//     const createdAt = new Date();
 
-    try {
-      await setDoc(userDocRef, {
-        firstName,
-        email,
-        createdAt,
-        ...additionalInformation,
-      });
-    } catch (error) {
-      console.log("error in creatinggg ", error.message);
-    }
-  }
+//     try {
+//       await setDoc(userDocRef, {
+//         firstName,
+//         email,
+//         createdAt,
+//         ...additionalInformation,
+//       });
+//     } catch (error) {
+//       console.log("error in creatinggg ", error.message);
+//     }
+//   }
 
-  return userDocRef;
-};
+//   return userDocRef;
+// };
 
-export const createAuthUserWithEmailAndPassword = async (email, password) => {
-  if (!email || !password) return;
-  return await createUserWithEmailAndPassword(auth, email, password);
-};
+// export const createAuthUserWithEmailAndPassword = async (email, password) => {
+//   if (!email || !password) return;
+//   return await createUserWithEmailAndPassword(auth, email, password);
+// };
