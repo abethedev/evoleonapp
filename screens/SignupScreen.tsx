@@ -6,9 +6,6 @@ import { useEffect, useState } from "react";
 
 import { Text, View } from "../components/Themed";
 import MenuIcon from "../components/MenuIcon";
-
-import AuthScreenStyle from "../styles/authenticateStyle";
-import ButtonStyles from "../styles/buttonStyle";
 import Checkbox from "expo-checkbox";
 
 import { AuthScreenStyle } from "../styles/authenticateStyle";
@@ -54,7 +51,7 @@ const SignupScreen = (props) => {
   };
 
   return (
-    <View style={main.Centered}>
+    <View style={AuthScreenStyle.centered}>
       <Text lightColor="rgba(0,0,0,0.8)" darkColor="rgba(255,255,255,0.8)">
         Already have an account?
       </Text>
@@ -65,43 +62,43 @@ const SignupScreen = (props) => {
           navigation.navigate("Login");
         }}
       >
-        <Text style={buttonStyles.SigninLink}>Sign in</Text>
+        <Text style={ButtonStyles.SigninLink}>Sign in</Text>
       </Pressable>
 
       {/* Collect user information */}
-      <SafeAreaView style={inputStyle.InputArea}>
+      <SafeAreaView style={SignUpScreenStyle.InputArea}>
         <TextInput
-          style={inputStyle.Text}
+          style={SignUpScreenStyle.Text}
           onChange={onChangeTextFirstName}
           value={firstName}
           placeholder="Firstname"
         />
         <TextInput
-          style={inputStyle.Text}
+          style={SignUpScreenStyle.Text}
           onChange={onChangeTextLastName}
           value={lastName}
           placeholder="Lastname"
         />
         <TextInput
-          style={inputStyle.Text}
+          style={SignUpScreenStyle.Text}
           onChange={onChangeTextCountry}
           value={homeCountry}
           placeholder="Home Country"
         />
         <TextInput
-          style={inputStyle.Text}
+          style={SignUpScreenStyle.Text}
           onChange={onChangeTextPostcode}
           value={homePostcode}
           placeholder="Home Postcode"
         />
         <TextInput
-          style={inputStyle.Text}
+          style={SignUpScreenStyle.Text}
           onChange={onChangeTextEmail}
           value={email}
           placeholder="Email"
         />
         <TextInput
-          style={inputStyle.Text}
+          style={SignUpScreenStyle.Text}
           onChange={onChangeTextPassword}
           secureTextEntry={true}
           value={password}
@@ -109,26 +106,26 @@ const SignupScreen = (props) => {
         />
       </SafeAreaView>
 
-      <View style={inputStyle.CheckBox}>
+      <View style={SignUpScreenStyle.CheckBox}>
         <Checkbox
           value={isChecked}
           onValueChange={setChecked}
           color={isChecked ? "#294E4B" : undefined}
         />
-        <Text style={inputStyle.CheckBoxText}>
+        <Text style={SignUpScreenStyle.CheckBoxText}>
           I agree to Terms and Conditions and the Privacy Policy
         </Text>
       </View>
 
       {/* Submit button */}
       <Pressable
-        style={buttonStyles.Button}
+        style={ButtonStyle.Button}
         onPress={async () => {
           await saveDetails(firstName, email, password);
           navigation.navigate("Database");
         }}
       >
-        <Text style={buttonStyles.Text}>Submit</Text>
+        <Text style={SignUpScreenStyle.Text}>Submit</Text>
       </Pressable>
     </View>
   );
