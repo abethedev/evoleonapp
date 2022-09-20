@@ -7,24 +7,6 @@ import {
 } from "firebase/auth";
 import { initializeApp } from "firebase/app";
 
-import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
-
-//Firebase config for Evoleon Application
-const firebaseConfig = {
-  apiKey: "AIzaSyDKfzJfKg08xUAHb7WBhs-I2L8lQV5nUIg",
-  authDomain: "evoleonapp.firebaseapp.com",
-  projectId: "evoleonapp",
-  storageBucket: "evoleonapp.appspot.com",
-  messagingSenderId: "425564389277",
-  appId: "1:425564389277:web:c86772f8abb19ffca47974",
-  measurementId: "G-GL6LC3D645",
-};
-
-//Initialize Firebase
-const app = initializeApp(firebaseConfig);
-export const auth = getAuth();
-export const dbf = getFirestore();
-
 //Boolean - true if user is signed in
 var userIsAuthenticated;
 
@@ -50,6 +32,21 @@ export const signInSignOutButtonPressed = () => {
   }
 };
 
+//Firebase config for Evoleon Application
+const firebaseConfig = {
+  apiKey: "AIzaSyDKfzJfKg08xUAHb7WBhs-I2L8lQV5nUIg",
+  authDomain: "evoleonapp.firebaseapp.com",
+  projectId: "evoleonapp",
+  storageBucket: "evoleonapp.appspot.com",
+  messagingSenderId: "425564389277",
+  appId: "1:425564389277:web:c86772f8abb19ffca47974",
+  measurementId: "G-GL6LC3D645",
+};
+
+//Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const auth = getAuth();
+
 //Sign in for an existing user
 export const userSignIn = (email, password) => {
   const authInfo = auth;
@@ -74,13 +71,9 @@ export const userSignUp = (email, password) => {
       userIsAuthenticated = true;
     })
     .catch((error) => {
-      console.log(error.code);
+      const errorCode = error.code;
+      const errorMessage = error.message;
     });
-};
-
-export const createAuthUserWithEmailAndPassword = async (email, password) => {
-  if (!email || !password) return;
-  return await createUserWithEmailAndPassword(auth, email, password);
 };
 
 //Sign out of user account
