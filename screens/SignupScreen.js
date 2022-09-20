@@ -25,6 +25,7 @@ import { render } from "react-dom";
 }
 
 const SignupScreen = (props) => {
+  const [isLoading, setLoading] = useState(false);
   const navigation = useNavigation();
   const [firstName, onChangeTextFirstName] = React.useState("");
   const [lastName, onChangeTextLastName] = React.useState("");
@@ -43,27 +44,37 @@ const SignupScreen = (props) => {
   const saveDetails = async (firstName, email, password) => {
     try {
       const { user } = await userSignUp(email, password);
+
       await createUserDocFromAuth(user, { firstName });
-      console.log("User Stored");
     } catch (error) {
-      console.log("Error in creating this user", error.message);
+      console.log("error in creating user", error.message);
+      setLoading(false);
     }
+    // try {
+    //   const { user } = await userSignUp(email, password);
+    //   await createUserDocFromAuth(user, { firstName });
+    //   console.log("User Stored");
+    // } catch (error) {
+    //   console.log("Error in creating this user", error.message);
+    // }
   };
 
   return (
-    <View style={AuthScreenStyle.centered}>
-      <Text lightColor="rgba(0,0,0,0.8)" darkColor="rgba(255,255,255,0.8)">
-        Already have an account?
-      </Text>
+    <View style={AuthScreenStyle.Centered}>
+      <View style={SignUpScreenStyle.upperContent}>
+        <Text lightColor="rgba(0,0,0,0.8)" darkColor="rgba(255,255,255,0.8)">
+          Already have an account?
+        </Text>
 
-      {/* Link to go to sign in page*/}
-      <Pressable
-        onPress={() => {
-          navigation.navigate("Login");
-        }}
-      >
-        <Text style={ButtonStyles.SigninLink}>Sign in</Text>
-      </Pressable>
+        {/* Link to go to sign in page*/}
+        <Pressable
+          onPress={() => {
+            navigation.navigate("Login");
+          }}
+        >
+          <Text style={ButtonStyle.SigninLink}>Sign in</Text>
+        </Pressable>
+      </View>
 
       {/* Collect user information */}
       <SafeAreaView style={SignUpScreenStyle.InputArea}>
@@ -120,12 +131,14 @@ const SignupScreen = (props) => {
       {/* Submit button */}
       <Pressable
         style={ButtonStyle.Button}
+        disabled={isLoading}
         onPress={async () => {
-          await saveDetails(firstName, email, password);
-          navigation.navigate("Database");
+          await userSignUp(email, password);
+
+          // navigation.navigate("Database");
         }}
       >
-        <Text style={SignUpScreenStyle.Text}>Submit</Text>
+        <Text style={ButtonStyle.Text}>{isLoading ? "Loading" : "Submit"}</Text>
       </Pressable>
     </View>
   );

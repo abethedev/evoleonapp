@@ -11,12 +11,9 @@ export const SignUpScreenStyle = StyleSheet.create({
     backgroundColor: "rgb(233,236,230)",
   },
   upperContent: {
-    position: "absolute",
     justifyContent: "center",
     alignItems: "center",
-    top: 5,
-    left: 10,
-    right: 10,
+    top: 10,
 
     backgroundColor: "rgb(233,236,230)",
   },
@@ -67,7 +64,7 @@ export const SignUpScreenStyle = StyleSheet.create({
     fontWeight: "bold",
   },
   Text: {
-    borderBottomColor: '#000',
+    borderBottomColor: "#000",
     borderBottomWidth: 1,
     marginBottom: 25,
     // paddingHorizontal: 50,
@@ -81,16 +78,15 @@ export const SignUpScreenStyle = StyleSheet.create({
   },
 
   CheckBox: {
-    flexDirection: 'row',
-    backgroundColor: '#E9ECE6',
-    marginBottom: 15
+    flexDirection: "row",
+    backgroundColor: "#E9ECE6",
+    marginBottom: 15,
   },
 
   CheckBoxText: {
     marginLeft: 10,
     width: 250,
-    flexWrap: 'wrap',
+    flexWrap: "wrap",
     marginBottom: 10,
-
-  }
+  },
 });
